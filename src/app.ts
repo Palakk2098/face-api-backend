@@ -31,6 +31,10 @@ app.use((req, res) => {
 
 // MongoDB Connection
 mongoose.connect(MONGO_URL);
+mongoose.connection.on('error', (err) => {
+  logger.error('MongoDB connection error:', err);
+});
+
 mongoose.connection.once('open', () => logger.info('Connected to MongoDB'));
 
 (async () => {
