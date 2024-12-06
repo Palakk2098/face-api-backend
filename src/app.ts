@@ -13,7 +13,6 @@ app.use(express.json());
 
 const allowedOrigins = [WEBSITE_URL]; // Add React frontend URL
 
-app.use('/api/src/uploads', express.static(path.join(__dirname, '/uploads')));
 app.use(
   cors({
     origin: allowedOrigins,
@@ -24,6 +23,11 @@ app.use(
 
 // Load Routes
 app.use('/api/faces', faceDescriptorRoutes);
+app.use('/api/src/uploads', express.static(path.join(__dirname, '/uploads')));
+
+app.use((req, res) => {
+  res.status(404).send('404: Not Found');
+});
 
 // MongoDB Connection
 mongoose.connect(MONGO_URL);
