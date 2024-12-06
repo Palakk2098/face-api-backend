@@ -21,6 +21,29 @@ export const loadModels = async () => {
   logger.info('FaceAPI models loaded.');
 };
 
+export const extractSingleDescriptors = async (
+  imagePath: string
+): Promise<Float32Array | null> => {
+  const image = await loadImage(imagePath);
+
+  // Detect all faces in the image
+  const detections = await faceapi
+    .detectAllFaces(image as any, new faceapi.SsdMobilenetv1Options())
+    .withFaceLandmarks()
+    .withFaceDescriptors();
+
+  if (detections.length === 0) {
+    throw new Error('No face detected in the image.');
+  }
+
+  if (detections.length > 1) {
+    throw new Error('More than one face detected in the image.');
+  }
+
+  // Return the descriptor for the single face
+  return detections[0].descriptor;
+};
+
 export const extractDescriptors = async (
   imagePath: string
 ): Promise<Float32Array[]> => {
@@ -41,18 +64,22 @@ export const addFaceData = async (
   const storedFilePaths: string[] = [];
 
   for (const file of files) {
-    const descriptors = await extractDescriptors(file.path);
+    const descriptor = await extractSingleDescriptors(file.path);
 
-    if (descriptors.length) {
-      allDescriptors.push(...descriptors);
-      storedFilePaths.push(file.path); // Save the file path for the database
-    } else {
-      // Delete files without faces
+    if (!descriptor) {
+      // Delete files without valid faces
       fs.unlinkSync(file.path);
-      throw new Error('No faces detected in the image.');
+      throw new Error(
+        'No face detected or more than one face detected in an image.'
+      );
     }
+
+    // Add the descriptor and file path to the lists
+    allDescriptors.push(descriptor);
+    storedFilePaths.push(file.path);
   }
 
+  // Serialize the descriptors for database storage
   const serializedDescriptors = allDescriptors.map((descriptor) =>
     Array.from(descriptor)
   );
@@ -62,8 +89,8 @@ export const addFaceData = async (
     { name },
     {
       $push: {
-        descriptors: { $each: serializedDescriptors },
-        filePaths: { $each: storedFilePaths }, // Store file paths
+        descriptors: { $each: serializedDescriptors }, // Append new descriptors
+        filePaths: { $each: storedFilePaths }, // Append new file paths
       },
     },
     { upsert: true }

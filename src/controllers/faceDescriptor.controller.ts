@@ -39,7 +39,7 @@ router.post('/add-face', uploadMultiple, async (req, res) => {
     res.send({ message: result });
   } catch (error) {
     logger.error('Error in add-face API:', error);
-    res.status(500).send({ error: 'Failed to add face data.' });
+    res.status(500).send({ error: 'Failed to add images.' });
   }
 });
 
