@@ -11,11 +11,9 @@ import logger from './utils/logger';
 const app = express();
 app.use(express.json());
 
-const allowedOrigins = [WEBSITE_URL]; // Add React frontend URL
-
 app.use(
   cors({
-    origin: allowedOrigins,
+    origin: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true, // Allow credentials if needed
   })
