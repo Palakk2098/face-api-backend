@@ -21,7 +21,7 @@ app.use(
 
 // Load Routes
 app.use('/api/faces', faceDescriptorRoutes);
-app.use('/api/src/uploads', express.static(path.join(__dirname, '/uploads')));
+app.use('/api/src/uploads', express.static(path.join(__dirname, './uploads')));
 
 app.use((req, res) => {
   res.status(404).send('404: Not Found');
