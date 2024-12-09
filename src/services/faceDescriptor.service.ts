@@ -1,7 +1,7 @@
 import * as faceapi from 'face-api.js';
 import { Canvas, Image, ImageData, loadImage } from 'canvas';
 import fs from 'fs';
-
+import path from 'path';
 import { FaceDescriptorModel } from '../models/faceDescriptor.model';
 import { MATCH_THRESHOLD, WEIGHTS_PATH } from '../config/env';
 import logger from '../utils/logger';
@@ -14,7 +14,7 @@ faceapi.env.monkeyPatch({
 });
 
 export const loadModels = async () => {
-  const modelsPath = WEIGHTS_PATH;
+  const modelsPath = path.join(__dirname, '../../' + WEIGHTS_PATH);
   await faceapi.nets.ssdMobilenetv1.loadFromDisk(modelsPath);
   await faceapi.nets.faceLandmark68Net.loadFromDisk(modelsPath);
   await faceapi.nets.faceRecognitionNet.loadFromDisk(modelsPath);
