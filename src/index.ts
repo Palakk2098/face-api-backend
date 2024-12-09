@@ -33,6 +33,7 @@ mongoose.connection.on('error', (err) => {
   logger.error('MongoDB connection error:', err);
 });
 mongoose.connection.once('open', () => logger.info('Connected to MongoDB'));
+mongoose.set('debug', true);
 
 // Preload models
 loadModels()
