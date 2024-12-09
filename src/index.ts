@@ -2,7 +2,7 @@ import cors from 'cors';
 import express from 'express';
 import mongoose from 'mongoose';
 import path from 'path';
-import { MONGO_URL } from './config/env';
+import { MONGO_URL, PORT } from './config/env';
 import faceDescriptorRoutes from './controllers/faceDescriptor.controller';
 import { loadModels } from './services/faceDescriptor.service';
 import logger from './utils/logger';
@@ -21,7 +21,8 @@ app.use(
 
 // Load Routes
 app.use('/api/faces', faceDescriptorRoutes);
-app.use('/api/src/uploads', express.static(path.join(__dirname, './uploads')));
+
+app.use('/api/tmp', express.static(path.join(__dirname, '../tmp')));
 
 app.use((req, res) => {
   res.status(404).send('404: Not Found');
@@ -39,5 +40,9 @@ mongoose.set('debug', true);
 loadModels()
   .then(() => logger.info('Models loaded successfully'))
   .catch((error) => logger.error('Error loading models:', error));
+
+app.listen(PORT, () => {
+  logger.info(`Server is running on http://localhost:${PORT}`);
+});
 
 export default app;
