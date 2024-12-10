@@ -5,7 +5,7 @@
     "outDir": "./dist", // output directory
     "strict": false,
     "esModuleInterop": true,
-
+    "rootDir": "./",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "useDefineForClassFields": false,
@@ -13,6 +13,6 @@
     "resolveJsonModule": true
     // add other options as needed
   },
-  "include": ["src/**/*"], // adjust to your source folder
-  "exclude": ["node_modules", "**/*.spec.ts"] // adjust as necessary
+  "include": ["src/**/*", "api/**/*", "weights/**/*", "tmp/**/*"],
+  "exclude": ["node_modules", "dist","**/*.spec.ts"] // adjust as necessary
 }

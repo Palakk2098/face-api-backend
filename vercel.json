@@ -5,5 +5,6 @@
   ],
   "routes": [
     { "src": "/(.*)", "dest": "/api/index.ts" }
-  ]
+  ],
+  "includeFiles": ["weights/**/*", "tmp/**/*", "api/**/*"]
 }
