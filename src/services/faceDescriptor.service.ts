@@ -14,35 +14,14 @@ faceapi.env.monkeyPatch({
 });
 
 export const loadModels = async () => {
-  const listFilesAndFolders = (dirPath) => {
-    try {
-      console.error(`Listing files and folders in: ${dirPath}`);
-      const files = fs.readdirSync(dirPath);
-
-      files.forEach((file) => {
-        const fullPath = path.join(dirPath, file);
-        const stats = fs.lstatSync(fullPath);
-
-        if (stats.isDirectory()) {
-          console.error(`📁 Directory: ${file}`);
-        } else {
-          console.error(`📄 File: ${file}`);
-        }
-      });
-    } catch (err) {
-      console.error(`Error reading directory: ${err.message}`);
-    }
-  };
-
-  const currentDir = process.cwd();
-  listFilesAndFolders(currentDir);
-
-  console.error(MONGO_URL, 'Connection String');
-
   const modelsPath = path.join(__dirname, '../../' + WEIGHTS_PATH);
   await faceapi.nets.ssdMobilenetv1.loadFromDisk(modelsPath);
   await faceapi.nets.faceLandmark68Net.loadFromDisk(modelsPath);
   await faceapi.nets.faceRecognitionNet.loadFromDisk(modelsPath);
+  console.error(
+    'FaceAPI models loaded.',
+    path.join(__dirname, '../../' + WEIGHTS_PATH)
+  );
   logger.info('FaceAPI models loaded.');
 };
 

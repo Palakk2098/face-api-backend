@@ -36,12 +36,11 @@ mongoose.connection.on('error', (err) => {
 mongoose.connection.once('open', () => logger.info('Connected to MongoDB'));
 mongoose.set('debug', true);
 
-// Preload models
-loadModels()
-  .then(() => logger.info('Models loaded successfully'))
-  .catch((error) => logger.error('Error loading models:', error));
-
 app.listen(PORT, () => {
+  // Preload models
+  loadModels()
+    .then(() => logger.info('Models loaded successfully'))
+    .catch((error) => logger.error('Error loading models:', error));
   logger.info(`Server is running on http://localhost:${PORT}`);
 });
 
