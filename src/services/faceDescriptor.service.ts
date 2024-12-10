@@ -28,6 +28,8 @@ export const loadModels = async () => {
 export const extractSingleDescriptors = async (
   imagePath: string
 ): Promise<Float32Array | null> => {
+  const result = await loadModels();
+  console.error(result, '---result--');
   const image = await loadImage(imagePath);
 
   // Detect all faces in the image
@@ -51,16 +53,8 @@ export const extractSingleDescriptors = async (
 export const extractDescriptors = async (
   imagePath: string
 ): Promise<Float32Array[]> => {
-  // Preload models
-  loadModels()
-    .then(() => {
-      console.error('Models loaded successfully');
-      logger.info('Models loaded successfully');
-    })
-    .catch((error) => {
-      console.log('Error loading models:', error);
-      logger.error('Error loading models:', error);
-    });
+  const result = await loadModels();
+  console.error(result, '---result--');
 
   const image = await loadImage(imagePath);
   const detections = await faceapi
