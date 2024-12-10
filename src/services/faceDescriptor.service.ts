@@ -39,7 +39,7 @@ export const loadModels = async () => {
 
   console.error(MONGO_URL, 'Connection String');
 
-  const modelsPath = path.join(__dirname, WEIGHTS_PATH);
+  const modelsPath = path.join(__dirname, '../../' + WEIGHTS_PATH);
   await faceapi.nets.ssdMobilenetv1.loadFromDisk(modelsPath);
   await faceapi.nets.faceLandmark68Net.loadFromDisk(modelsPath);
   await faceapi.nets.faceRecognitionNet.loadFromDisk(modelsPath);
