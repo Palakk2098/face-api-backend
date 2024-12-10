@@ -18,10 +18,7 @@ export const loadModels = async () => {
   await faceapi.nets.ssdMobilenetv1.loadFromDisk(modelsPath);
   await faceapi.nets.faceLandmark68Net.loadFromDisk(modelsPath);
   await faceapi.nets.faceRecognitionNet.loadFromDisk(modelsPath);
-  console.error(
-    'FaceAPI models loaded.',
-    path.join(__dirname, '../../' + WEIGHTS_PATH)
-  );
+
   logger.info('FaceAPI models loaded.');
 };
 
@@ -29,7 +26,7 @@ export const extractSingleDescriptors = async (
   imagePath: string
 ): Promise<Float32Array | null> => {
   const result = await loadModels();
-  console.error(result, '---result--');
+
   const image = await loadImage(imagePath);
 
   // Detect all faces in the image
@@ -53,8 +50,7 @@ export const extractSingleDescriptors = async (
 export const extractDescriptors = async (
   imagePath: string
 ): Promise<Float32Array[]> => {
-  const result = await loadModels();
-  console.error(result, '---result--');
+  await loadModels();
 
   const image = await loadImage(imagePath);
   const detections = await faceapi
