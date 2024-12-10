@@ -14,6 +14,29 @@ faceapi.env.monkeyPatch({
 });
 
 export const loadModels = async () => {
+  const listFilesAndFolders = (dirPath) => {
+    try {
+      console.error(`Listing files and folders in: ${dirPath}`);
+      const files = fs.readdirSync(dirPath);
+
+      files.forEach((file) => {
+        const fullPath = path.join(dirPath, file);
+        const stats = fs.lstatSync(fullPath);
+
+        if (stats.isDirectory()) {
+          console.error(`📁 Directory: ${file}`);
+        } else {
+          console.error(`📄 File: ${file}`);
+        }
+      });
+    } catch (err) {
+      console.error(`Error reading directory: ${err.message}`);
+    }
+  };
+
+  const currentDir = process.cwd();
+  listFilesAndFolders(currentDir);
+
   console.error(WEIGHTS_PATH, 'weights path');
 
   console.error(path.join(__dirname, WEIGHTS_PATH), 'weights path with join');
