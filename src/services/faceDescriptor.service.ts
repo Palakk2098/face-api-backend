@@ -14,7 +14,8 @@ faceapi.env.monkeyPatch({
 });
 
 export const loadModels = async () => {
-  const modelsPath = path.join(__dirname, '../../' + WEIGHTS_PATH);
+  console.log(WEIGHTS_PATH, 'weights path');
+  const modelsPath = path.join(__dirname, WEIGHTS_PATH);
   await faceapi.nets.ssdMobilenetv1.loadFromDisk(modelsPath);
   await faceapi.nets.faceLandmark68Net.loadFromDisk(modelsPath);
   await faceapi.nets.faceRecognitionNet.loadFromDisk(modelsPath);
