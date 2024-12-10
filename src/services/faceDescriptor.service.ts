@@ -14,11 +14,11 @@ faceapi.env.monkeyPatch({
 });
 
 export const loadModels = async () => {
-  logger.error(WEIGHTS_PATH, 'weights path');
+  console.error(WEIGHTS_PATH, 'weights path');
 
-  logger.error(path.join(__dirname, WEIGHTS_PATH), 'weights path with join');
+  console.error(path.join(__dirname, WEIGHTS_PATH), 'weights path with join');
 
-  logger.error(process.cwd(), 'current working directory');
+  console.error(process.cwd(), 'current working directory');
   const modelsPath = path.join(__dirname, WEIGHTS_PATH);
   await faceapi.nets.ssdMobilenetv1.loadFromDisk(modelsPath);
   await faceapi.nets.faceLandmark68Net.loadFromDisk(modelsPath);
