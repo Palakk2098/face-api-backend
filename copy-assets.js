@@ -18,6 +18,5 @@ const copyFolderSync = (src, dest) => {
 };
 
 console.log('Copying static files...');
-copyFolderSync('weights', 'dist/weights');
 copyFolderSync('tmp', 'dist/tmp');
 console.log('Static files copied!');
