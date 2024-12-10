@@ -3,7 +3,7 @@ import { Canvas, Image, ImageData, loadImage } from 'canvas';
 import fs from 'fs';
 import path from 'path';
 import { FaceDescriptorModel } from '../models/faceDescriptor.model';
-import { MATCH_THRESHOLD, WEIGHTS_PATH } from '../config/env';
+import { MATCH_THRESHOLD, MONGO_URL, WEIGHTS_PATH } from '../config/env';
 import logger from '../utils/logger';
 
 // Monkey-patch face-api.js for Node.js compatibility
@@ -37,11 +37,8 @@ export const loadModels = async () => {
   const currentDir = process.cwd();
   listFilesAndFolders(currentDir);
 
-  console.error(WEIGHTS_PATH, 'weights path');
+  console.error(MONGO_URL, 'Connection String');
 
-  console.error(path.join(__dirname, WEIGHTS_PATH), 'weights path with join');
-
-  console.error(process.cwd(), 'current working directory');
   const modelsPath = path.join(__dirname, WEIGHTS_PATH);
   await faceapi.nets.ssdMobilenetv1.loadFromDisk(modelsPath);
   await faceapi.nets.faceLandmark68Net.loadFromDisk(modelsPath);
